@@ -82,14 +82,14 @@
         }
 
         .logo-icon {
-            width: 65px;
-            height: 65px;
+            width: 70px;
+            height: 70px;
             background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            border-radius: 22px;
+            border-radius: 25px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 38px;
             color: #1f1a10;
             box-shadow: var(--shadow-sm);
             animation: float 3s ease-in-out infinite;
@@ -481,7 +481,7 @@
             .action-fields { grid-template-columns: 1fr; }
             .period-row { grid-template-columns: 1fr; }
             .logo h1 { font-size: 1.8rem; }
-            .logo-icon { width: 50px; height: 50px; font-size: 24px; }
+            .logo-icon { width: 55px; height: 55px; font-size: 28px; }
         }
     </style>
 </head>
@@ -494,7 +494,7 @@
     <div class="container">
         <div class="header">
             <div class="logo">
-                <div class="logo-icon"><i class="fas fa-shield-haltered"></i></div>
+                <div class="logo-icon">⭐</div>
                 <h1>ARMY</h1>
             </div>
             <p class="subtitle">United States Army | Отчеты подразделений</p>
@@ -562,19 +562,18 @@
     </div>
 
     <script>
-        // Типы премий и баллы
+        // Типы премий
         const BONUS_TYPES = [
-            { name: "Пониженная", points: 5 },
-            { name: "Стандартная", points: 10 },
-            { name: "Средняя", points: 15 },
-            { name: "Высокая", points: 20 },
-            { name: "Повышенная", points: 30 },
-            { name: "Супер повышенная", points: 50 }
+            "Пониженная",
+            "Стандартная",
+            "Средняя",
+            "Высокая",
+            "Повышенная",
+            "Супер повышенная"
         ];
         
-        // НОВЫЙ ВЕБХУК ДЛЯ ОТЧЕТОВ ПОДРАЗДЕЛЕНИЙ ARMY
+        // ВЕБХУК ДЛЯ ОТЧЕТОВ ПОДРАЗДЕЛЕНИЙ ARMY
         const UNIT_WEBHOOK = 'https://discord.com/api/webhooks/1506606638101037056/7DlIrh8eInMeegGD4U_FcGJRE9Qwt9pcfWRPVbxad3f0fPjHwJpeCM6cYYZGMYG_-tU8';
-        const ROLES_TAG = '<@&795409425434935306> <@&792081780588937227>';
         
         let bonuses = []; // массив объектов { name, rankRole, bonusType, points, reportUrl }
         
@@ -618,7 +617,7 @@
         }
         
         function createBonusHTML(b, idx) {
-            const bonusOptions = BONUS_TYPES.map(bt => `<option value="${bt.name}" data-points="${bt.points}" ${b.bonusType === bt.name ? 'selected' : ''}>${bt.name} (${bt.points} баллов)</option>`).join('');
+            const bonusOptions = BONUS_TYPES.map(type => `<option value="${type}" ${b.bonusType === type ? 'selected' : ''}>${type}</option>`).join('');
             return `
                 <div class="action-item" data-idx="${idx}">
                     <div class="action-header">
@@ -643,7 +642,7 @@
                         </div>
                         <div class="action-field">
                             <label>КОЛ-ВО БАЛЛОВ</label>
-                            <input type="number" class="bonus-points" data-idx="${idx}" value="${b.points || 0}" readonly style="background: rgba(0,0,0,0.3); cursor: default;">
+                            <input type="number" class="bonus-points" data-idx="${idx}" value="${b.points || 0}" placeholder="Введите количество баллов">
                         </div>
                         <div class="bonus-link">
                             <label><i class="fas fa-file-alt"></i> ССЫЛКА НА ОТЧЕТ</label>
@@ -665,25 +664,13 @@
             
             nameInput.oninput = () => { if (bonuses[idx]) bonuses[idx].name = nameInput.value; };
             rankInput.oninput = () => { if (bonuses[idx]) bonuses[idx].rankRole = rankInput.value; };
+            pointsInput.oninput = () => { if (bonuses[idx]) bonuses[idx].points = pointsInput.value; };
             urlInput.oninput = () => { if (bonuses[idx]) bonuses[idx].reportUrl = urlInput.value; };
             
             typeSelect.onchange = () => {
                 if (!bonuses[idx]) return;
-                const selectedType = typeSelect.value;
-                const bonusObj = BONUS_TYPES.find(bt => bt.name === selectedType);
-                const points = bonusObj ? bonusObj.points : 0;
-                bonuses[idx].bonusType = selectedType;
-                bonuses[idx].points = points;
-                pointsInput.value = points;
+                bonuses[idx].bonusType = typeSelect.value;
             };
-            
-            if (typeSelect.value) {
-                const bonusObj = BONUS_TYPES.find(bt => bt.name === typeSelect.value);
-                if (bonusObj && bonuses[idx]) {
-                    pointsInput.value = bonusObj.points;
-                    bonuses[idx].points = bonusObj.points;
-                }
-            }
         }
         
         function attachAllBonusEvents() {
@@ -707,7 +694,7 @@
         }
         
         function addBonus() {
-            bonuses.push({ name: '', rankRole: '', bonusType: '', points: 0, reportUrl: '' });
+            bonuses.push({ name: '', rankRole: '', bonusType: '', points: '', reportUrl: '' });
             renumberBonusRender();
         }
         
@@ -730,21 +717,15 @@
             }
         });
         
+        // делегирование для изменения полей
         document.getElementById('bonusList')?.addEventListener('change', (e) => {
             const target = e.target;
             const idxAttr = target.dataset.idx;
             if (idxAttr === undefined) return;
             const idx = parseInt(idxAttr);
             if (isNaN(idx) || !bonuses[idx]) return;
-            
             if (target.classList.contains('bonus-type')) {
-                const selectedType = target.value;
-                const bonusObj = BONUS_TYPES.find(bt => bt.name === selectedType);
-                const points = bonusObj ? bonusObj.points : 0;
-                bonuses[idx].bonusType = selectedType;
-                bonuses[idx].points = points;
-                const pointsField = target.closest('.action-item')?.querySelector('.bonus-points');
-                if (pointsField) pointsField.value = points;
+                bonuses[idx].bonusType = target.value;
             }
         });
         
@@ -754,11 +735,12 @@
             if (idxAttr === undefined) return;
             const idx = parseInt(idxAttr);
             if (isNaN(idx) || !bonuses[idx]) return;
-            
             if (target.classList.contains('bonus-name')) {
                 bonuses[idx].name = target.value;
             } else if (target.classList.contains('bonus-rank')) {
                 bonuses[idx].rankRole = target.value;
+            } else if (target.classList.contains('bonus-points')) {
+                bonuses[idx].points = target.value;
             } else if (target.classList.contains('bonus-url')) {
                 bonuses[idx].reportUrl = target.value;
             }
@@ -783,31 +765,27 @@
                 if (!startDate || !endDate) throw new Error('Укажите период отчета');
                 if (!reportLink) throw new Error('Укажите ссылку на отчет подразделения');
                 
-                const periodStr = `${formatDate(startDate)} – ${formatDate(endDate)}`;
+                const periodStr = formatDate(startDate);
                 const unitName = document.querySelector(`#reportUnit option[value="${unit}"]`)?.textContent || unit;
                 
-                // Формируем текстовое сообщение, где ссылка вставляется как текст и кликабельна (Discord автоматически делает ссылки кликабельными)
-                let messageText = `${ROLES_TAG}\n🪖 **ОТЧЕТ ПОДРАЗДЕЛЕНИЯ ARMY** 🪖\n\n`;
-                messageText += `**📋 Отчет подразделения ${unitName}**\n`;
-                messageText += `👤 **Автор:** ${author}\n`;
-                messageText += `📅 **Период:** ${periodStr}\n`;
-                messageText += `🔗 **Ссылка на отчет:** ${reportLink}\n\n`;
+                // Формируем сообщение по новому формату
+                let messageText = `**Отправитель:** ${author}\n\n`;
+                messageText += `# [Отчёт подразделения ${unitName}](${reportLink})\n`;
+                messageText += `## За ${periodStr}\n\n`;
                 
                 if (bonuses.length > 0) {
-                    messageText += `🏆 **СПИСКИ НА ПРЕМИЮ:**\n`;
+                    messageText += `# Список на премию\n`;
                     for (let i = 0; i < bonuses.length; i++) {
                         const b = bonuses[i];
                         const nameVal = b.name || 'Не указано';
                         const rankVal = b.rankRole || 'Не указано';
                         const typeVal = b.bonusType || 'Не указан';
-                        const pointsVal = b.points || 0;
-                        const urlVal = b.reportUrl ? b.reportUrl : '—';
-                        messageText += `**${i+1}. ${nameVal}** | ${rankVal}\n`;
-                        messageText += `   🎖️ Тип премии: ${typeVal} | Баллы: ${pointsVal}\n`;
-                        messageText += `   📎 Отчет: ${urlVal}\n\n`;
+                        const pointsVal = b.points || '0';
+                        const urlVal = b.reportUrl || '—';
+                        messageText += `${nameVal} | ${rankVal} | ${typeVal} ${pointsVal} баллов | ${urlVal}\n`;
                     }
                 } else {
-                    messageText += `ℹ️ **Списки на премию:** отсутствуют\n`;
+                    messageText += `# Список на премию\nНет добавленных сотрудников`;
                 }
                 
                 if (messageText.length > 1900) messageText = messageText.substring(0, 1900) + "\n... (обрезано)";
