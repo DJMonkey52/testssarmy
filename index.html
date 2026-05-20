@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>ARMY | Отчеты подразделений</title>
+    <title>USAF | Отчеты подразделений</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -496,9 +496,9 @@
         <div class="header">
             <div class="logo">
                 <div class="logo-icon">⭐</div>
-                <h1>ARMY</h1>
+                <h1>USAF</h1>
             </div>
-            <p class="subtitle">United States Army | Отчеты подразделений</p>
+            <p class="subtitle">United States Air Force | Отчеты подразделений</p>
         </div>
 
         <div id="formPage" class="page">
@@ -518,12 +518,12 @@
                         <label><i class="fas fa-flag-checkered"></i> ПОДРАЗДЕЛЕНИЕ</label>
                         <select id="reportUnit">
                             <option value="">-- Выберите --</option>
-                            <option value="MA">⚔️ MA (Military Authority)</option>
-                            <option value="DIV">🎯 DIV (Division)</option>
-                            <option value="Tactical Medic">🩺 Tactical Medic</option>
-                            <option value="ARMY">🪖 ARMY (Army Forces)</option>
-                            <option value="MPB">🔫 MPB (Military Police Battalion)</option>
-                            <option value="DELTA">⭐ DELTA</option>
+                            <option value="MA">MA</option>
+                            <option value="DIV">DIV</option>
+                            <option value="Tactical Medic">Tactical Medic</option>
+                            <option value="USAF">USAF</option>
+                            <option value="MPB">MPB</option>
+                            <option value="DELTA">DELTA</option>
                         </select>
                     </div>
                     
@@ -537,7 +537,7 @@
                             <input type="date" id="dateEnd">
                         </div>
                     </div>
-                    <div class="period-info" id="periodInfo">📅 Выберите период</div>
+                    <div class="period-info" id="periodInfo">Выберите период</div>
                     
                     <div class="input-group">
                         <label><i class="fas fa-link"></i> ССЫЛКА НА ОТЧЕТ ПОДРАЗДЕЛЕНИЯ</label>
@@ -549,7 +549,7 @@
                             <i class="fas fa-trophy"></i> СПИСКИ НА ПРЕМИЮ (БОНУСЫ)
                         </label>
                         <div id="bonusList"></div>
-                        <div id="emptyBonus" class="empty-state">🏆 Нет добавленных сотрудников на премию</div>
+                        <div id="emptyBonus" class="empty-state">Нет добавленных сотрудников на премию</div>
                         <button class="add-btn" id="addBonusBtn"><i class="fas fa-plus-circle"></i> ДОБАВИТЬ СОТРУДНИКА</button>
                     </div>
                     
@@ -589,9 +589,9 @@
             if (info && start && end) {
                 const startFormatted = formatDate(start);
                 const endFormatted = formatDate(end);
-                info.innerHTML = `📅 За ${startFormatted} - ${endFormatted}`;
+                info.innerHTML = `За ${startFormatted} - ${endFormatted}`;
             } else if (info) {
-                info.innerHTML = '📅 Выберите период';
+                info.innerHTML = 'Выберите период';
             }
         }
         
@@ -620,23 +620,23 @@
                     </div>
                     <div class="action-fields">
                         <div class="action-field">
-                            <label>👤 ИМЯ ФАМИЛИЯ</label>
+                            <label>ИМЯ ФАМИЛИЯ</label>
                             <input type="text" class="bonus-name" data-idx="${idx}" value="${escapeHtml(b.name)}" placeholder="John Doe">
                         </div>
                         <div class="action-field">
-                            <label>📌 ДОЛЖНОСТЬ | РАНГ</label>
+                            <label>ДОЛЖНОСТЬ | РАНГ</label>
                             <input type="text" class="bonus-rank" data-idx="${idx}" value="${escapeHtml(b.rankRole)}" placeholder="Сержант / Штаб-сержант">
                         </div>
                         <div class="action-field">
-                            <label>🎖️ ТИП ПРЕМИИ</label>
+                            <label>ТИП ПРЕМИИ</label>
                             <select class="bonus-type" data-idx="${idx}">
                                 <option value="">-- Выберите --</option>
                                 ${bonusOptions}
                             </select>
                         </div>
                         <div class="action-field">
-                            <label>⭐ КОЛ-ВО БАЛЛОВ</label>
-                            <input type="number" class="bonus-points" data-idx="${idx}" value="${b.points || ''}" placeholder="Введите баллы">
+                            <label>КОЛ-ВО БАЛЛОВ</label>
+                            <input type="text" class="bonus-points" data-idx="${idx}" value="${escapeHtml(b.points)}" placeholder="Введите количество баллов">
                         </div>
                         <div class="bonus-link">
                             <label><i class="fas fa-file-alt"></i> ССЫЛКА НА ОТЧЕТ</label>
@@ -754,35 +754,28 @@
                 if (!startDate || !endDate) throw new Error('Укажите период отчета');
                 if (!reportLink) throw new Error('Укажите ссылку на отчет подразделения');
                 
-                // Получаем красивое название подразделения с эмодзи
-                const unitOption = document.querySelector(`#reportUnit option[value="${unitRaw}"]`);
-                let unitDisplay = unitRaw;
-                if (unitOption) {
-                    unitDisplay = unitOption.textContent;
-                }
-                
+                const unitDisplay = unitRaw;
                 const startFormatted = formatDate(startDate);
                 const endFormatted = formatDate(endDate);
                 const periodText = `${startFormatted} - ${endFormatted}`;
                 
-                // Формируем сообщение с красивыми эмодзи
-                let messageText = `📋 **Отправитель:** ${author}\n\n`;
-                messageText += `# 📄 [Отчёт подразделения ${unitDisplay}](${reportLink})\n`;
-                messageText += `## 📅 За ${periodText}\n\n`;
+                let messageText = `**Отправитель:** ${author}\n\n`;
+                messageText += `# [Отчёт подразделения ${unitDisplay}](${reportLink})\n`;
+                messageText += `## За ${periodText}\n\n`;
                 
                 if (bonuses.length > 0) {
-                    messageText += `# 🏆 Список на премию\n`;
+                    messageText += `# Список на премию\n`;
                     for (let i = 0; i < bonuses.length; i++) {
                         const b = bonuses[i];
-                        const nameVal = b.name || '❌ Не указано';
-                        const rankVal = b.rankRole || '❌ Не указано';
-                        const typeVal = b.bonusType || '❌ Не указан';
+                        const nameVal = b.name || 'Не указано';
+                        const rankVal = b.rankRole || 'Не указано';
+                        const typeVal = b.bonusType || 'Не указан';
                         const pointsVal = b.points || '0';
-                        const urlVal = b.reportUrl || '❌ Нет ссылки';
-                        messageText += `👤 ${nameVal} | ${rankVal} | 🎖️ ${typeVal} ⭐${pointsVal} баллов | 🔗 ${urlVal}\n`;
+                        const urlVal = b.reportUrl || 'Нет ссылки';
+                        messageText += `${nameVal} | ${rankVal} | ${typeVal} ${pointsVal} баллов | ${urlVal}\n`;
                     }
                 } else {
-                    messageText += `# 🏆 Список на премию\nℹ️ Нет добавленных сотрудников\n`;
+                    messageText += `# Список на премию\nНет добавленных сотрудников\n`;
                 }
                 
                 if (messageText.length > 1900) messageText = messageText.substring(0, 1900) + "\n... (обрезано)";
@@ -794,10 +787,10 @@
                 });
                 
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                showAlert(alertId, '✅ Отчет подразделения отправлен!', 'success');
+                showAlert(alertId, 'Отчет подразделения отправлен!', 'success');
                 resetForm();
             } catch (err) {
-                showAlert(alertId, `❌ Ошибка: ${err.message}`, 'error');
+                showAlert(alertId, `Ошибка: ${err.message}`, 'error');
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = originalHTML;
