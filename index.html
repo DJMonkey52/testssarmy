@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>USAF | Отчеты подразделений</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: repeating-linear-gradient(45deg, #2a2418 0px, #2a2418 40px, #3e3524 40px, #3e3524 80px, #1f1a10 80px, #1f1a10 120px);
+            min-height: 100vh;
+        }
+
+        body.light {
+            background: #e6dcc5;
+        }
+
+        :root {
+            --glass-bg: rgba(30, 25, 18, 0.96);
+            --glass-border: rgba(180, 150, 80, 0.45);
+            --text-primary: #F5EED9;
+            --text-secondary: #DDD2B6;
+            --text-muted: #B8A97C;
+            --accent: #D4AF37;
+            --accent-glow: #E6C868;
+            --accent-dark: #B88F2A;
+            --success: #10b981;
+            --danger: #ef4444;
+            --border-light: rgba(212, 175, 55, 0.25);
+            --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.5);
+            --shadow-md: 0 20px 35px -10px rgba(0, 0, 0, 0.6);
+            --input-bg: rgba(20, 16, 12, 0.9);
+            --card-hover: rgba(212, 175, 55, 0.12);
+        }
+
+        body.light {
+            --glass-bg: rgba(250, 245, 235, 0.95);
+            --glass-border: rgba(180, 150, 80, 0.4);
+            --text-primary: #2c2418;
+            --text-secondary: #5c4e32;
+            --text-muted: #8a7a58;
+            --accent: #b8860b;
+            --accent-glow: #d4a017;
+            --accent-dark: #9a6d0a;
+            --border-light: rgba(0, 0, 0, 0.1);
+            --input-bg: rgba(255, 255, 245, 0.98);
+            --card-hover: rgba(184, 134, 11, 0.08);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            margin-top: 10px;
+            animation: fadeInDown 0.8s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .logo-icon {
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-radius: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: #1f1a10;
+            box-shadow: var(--shadow-sm);
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .logo h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #F5EED9, var(--accent-glow));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            letter-spacing: 2px;
+        }
+
+        .theme-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            padding: 10px 22px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.85rem;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            z-index: 100;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--accent);
+            transform: scale(1.05) translateY(-2px);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .page {
+            display: block;
+            animation: fadeInUp 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(40px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            border-radius: 32px;
+            border: 1px solid var(--glass-border);
+            overflow: hidden;
+            transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .glass-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(128, 98, 30, 0.08));
+            padding: 20px 28px;
+            border-bottom: 1px solid var(--border-light);
+        }
+
+        .card-header h2 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-header h2 i {
+            color: var(--accent);
+        }
+
+        .card-body {
+            padding: 28px;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        .input-group label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            color: var(--accent-glow);
+            margin-bottom: 8px;
+        }
+
+        .input-group label i {
+            margin-right: 6px;
+        }
+
+        .input-group input, .input-group select, .input-group textarea {
+            width: 100%;
+            padding: 14px 16px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 16px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            transform: scale(1.01);
+        }
+
+        .period-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
+        }
+
+        .period-info {
+            background: rgba(212, 175, 55, 0.1);
+            border-radius: 14px;
+            padding: 12px 16px;
+            text-align: center;
+            color: var(--accent-glow);
+            font-size: 0.85rem;
+            margin: 15px 0 20px;
+        }
+
+        .actions-section {
+            margin-top: 25px;
+        }
+
+        .action-item {
+            background: var(--card-hover);
+            border-radius: 20px;
+            padding: 18px;
+            margin-bottom: 16px;
+            border: 1px solid var(--border-light);
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            animation: actionSlideIn 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @keyframes actionSlideIn {
+            from { opacity: 0; transform: translateX(-30px) scale(0.95); }
+            to { opacity: 1; transform: translateX(0) scale(1); }
+        }
+
+        @keyframes actionRemove {
+            from { opacity: 1; transform: translateX(0) scale(1); max-height: 500px; margin-bottom: 16px; padding: 18px; }
+            to { opacity: 0; transform: translateX(50px) scale(0.9); max-height: 0; margin-bottom: 0; padding-top: 0; padding-bottom: 0; border: none; }
+        }
+
+        .action-item:hover {
+            border-color: var(--accent);
+            transform: translateX(6px);
+        }
+
+        .action-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .action-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+        }
+
+        .remove-action {
+            background: rgba(239, 68, 68, 0.15);
+            border: none;
+            color: #f87171;
+            padding: 6px 14px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .remove-action:hover {
+            background: rgba(239, 68, 68, 0.3);
+            transform: scale(1.05);
+        }
+
+        .action-fields {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .action-field {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .action-field label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--accent-glow);
+        }
+
+        .action-field select, .action-field input {
+            padding: 10px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            transition: all 0.2s ease;
+        }
+
+        .bonus-link {
+            grid-column: span 2;
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid var(--border-light);
+        }
+
+        .bonus-link label {
+            font-size: 0.65rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--accent-glow);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .bonus-link input {
+            width: 100%;
+            padding: 10px 14px;
+            background: var(--input-bg);
+            border: 1px solid var(--border-light);
+            border-radius: 12px;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+        }
+
+        .add-btn {
+            width: 100%;
+            background: rgba(212, 175, 55, 0.12);
+            border: 2px dashed var(--accent);
+            border-radius: 18px;
+            padding: 14px;
+            color: var(--accent);
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        .add-btn:hover {
+            background: rgba(212, 175, 55, 0.25);
+            transform: scale(1.02);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            background: rgba(30, 25, 18, 0.6);
+            border-radius: 20px;
+        }
+
+        body.light .empty-state {
+            background: rgba(0, 0, 0, 0.03);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(105deg, var(--accent), var(--accent-dark));
+            border: none;
+            padding: 16px;
+            border-radius: 24px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: #1f1a10;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            position: relative;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+
+        .submit-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .submit-btn:hover::before {
+            left: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.05);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+        }
+
+        .footer-signature {
+            text-align: center;
+            margin-top: 40px;
+            padding: 20px;
+            border-top: 1px solid var(--border-light);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        .footer-signature i {
+            color: var(--accent);
+            margin: 0 4px;
+        }
+
+        .alert {
+            padding: 14px 18px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: none;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+            font-size: 0.85rem;
+            animation: slideInRight 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(40px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .alert.success {
+            background: rgba(16, 185, 129, 0.15);
+            border-left: 4px solid #10b981;
+            color: #10b981;
+            display: flex;
+        }
+
+        .alert.error {
+            background: rgba(239, 68, 68, 0.12);
+            border-left: 4px solid #ef4444;
+            color: #f87171;
+            display: flex;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .fa-spinner {
+            animation: spin 1s linear infinite;
+        }
+
+        @media (max-width: 700px) {
+            .action-fields { grid-template-columns: 1fr; }
+            .period-row { grid-template-columns: 1fr; }
+            .logo h1 { font-size: 1.8rem; }
+            .logo-icon { width: 50px; height: 50px; font-size: 24px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle" id="themeSwitch">
+        <i class="fas fa-sun"></i>
+        <span>Светлая тема</span>
+    </div>
+
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-icon"><i class="fas fa-fighter-jet"></i></div>
+                <h1>USAF</h1>
+            </div>
+            <p class="subtitle">United States Air Force | Отчеты подразделений</p>
+        </div>
+
+        <div id="formPage" class="page">
+            <div class="glass-card">
+                <div class="card-header">
+                    <h2><i class="fas fa-building"></i> Отчет подразделения</h2>
+                </div>
+                <div class="card-body">
+                    <div id="formAlert"></div>
+                    
+                    <!-- Основные поля -->
+                    <div class="input-group">
+                        <label><i class="fas fa-user"></i> ИМЯ ФАМИЛИЯ (никнейм)</label>
+                        <input type="text" id="reportAuthor" placeholder="Alexandr DeHaus">
+                    </div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-flag-checkered"></i> ПОДРАЗДЕЛЕНИЕ</label>
+                        <select id="reportUnit">
+                            <option value="">-- Выберите --</option>
+                            <option value="MA">MA (Military Authority)</option>
+                            <option value="DIV">DIV (Division)</option>
+                            <option value="Tactical Medic">Tactical Medic</option>
+                            <option value="USAF">USAF (Air Force)</option>
+                            <option value="MPB">MPB (Military Police Battalion)</option>
+                            <option value="DELTA">DELTA</option>
+                        </select>
+                    </div>
+                    
+                    <div class="period-row">
+                        <div class="input-group">
+                            <label><i class="fas fa-calendar-alt"></i> ДАТА НАЧАЛА</label>
+                            <input type="date" id="dateStart">
+                        </div>
+                        <div class="input-group">
+                            <label><i class="fas fa-calendar-alt"></i> ДАТА ОКОНЧАНИЯ</label>
+                            <input type="date" id="dateEnd">
+                        </div>
+                    </div>
+                    <div class="period-info" id="periodInfo"></div>
+                    
+                    <div class="input-group">
+                        <label><i class="fas fa-link"></i> ССЫЛКА НА ОТЧЕТ ПОДРАЗДЕЛЕНИЯ</label>
+                        <input type="text" id="reportLink" placeholder="https://docs.google.com/...">
+                    </div>
+                    
+                    <!-- Списки на премию (динамические блоки) -->
+                    <div class="actions-section">
+                        <label style="font-size: 0.7rem; font-weight: 600; color: var(--accent-glow);">
+                            <i class="fas fa-trophy"></i> СПИСКИ НА ПРЕМИЮ (БОНУСЫ)
+                        </label>
+                        <div id="bonusList"></div>
+                        <div id="emptyBonus" class="empty-state">Нет добавленных сотрудников на премию</div>
+                        <button class="add-btn" id="addBonusBtn"><i class="fas fa-plus-circle"></i> ДОБАВИТЬ СОТРУДНИКА</button>
+                    </div>
+                    
+                    <button class="submit-btn" id="submitBtn"><i class="fab fa-discord"></i> ОТПРАВИТЬ ОТЧЕТ</button>
+                    <div class="footer-signature"><i class="fas fa-code"></i> By Alexandr DeHaus & Evgeny Bauer <i class="fas fa-heart"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Типы премий и баллы
+        const BONUS_TYPES = [
+            { name: "Пониженная", points: 5 },
+            { name: "Стандартная", points: 10 },
+            { name: "Средняя", points: 15 },
+            { name: "Высокая", points: 20 },
+            { name: "Повышенная", points: 30 },
+            { name: "Супер повышенная", points: 50 }
+        ];
+        
+        const RANKS = ["Специалист (3)", "Капрал (4)", "Сержант (5)", "Штаб-сержант (6)", "Уорент-офицер (7)", "Старший Уорент-офицер (8)", "Лейтенант (9)", "Капитан (10)", "Майор (11)", "Подполковник (12)"];
+
+        // ВЕБХУК ДЛЯ ОТЧЕТОВ ПОДРАЗДЕЛЕНИЙ (ЗАМЕНИТЕ НА ВАШ)
+        const UNIT_WEBHOOK = 'https://discord.com/api/webhooks/1506356845416157284/ZWcR7f5v9y0u9hFNK3QJL49VpyeHSqukHbTg40fSeaORQl7nLXATXiJzHZzXxicCFIaz';
+        const ROLES_TAG = '<@&795409425434935306> <@&792081780588937227>';
+        
+        let bonuses = []; // массив объектов { name, rankRole, bonusType, points, reportUrl }
+        
+        function formatDate(d) { if (!d) return ''; return new Date(d).toLocaleDateString('ru-RU'); }
+        
+        function showAlert(container, msg, type) {
+            const c = document.getElementById(container);
+            if (!c) return;
+            const div = document.createElement('div');
+            div.className = `alert ${type}`;
+            div.innerHTML = `<i class="fas ${type === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle'}"></i> ${msg}`;
+            c.appendChild(div);
+            setTimeout(() => div.remove(), 5000);
+        }
+        
+        function updatePeriodInfo() {
+            const start = document.getElementById('dateStart')?.value;
+            const end = document.getElementById('dateEnd')?.value;
+            const info = document.getElementById('periodInfo');
+            if (info && start && end) {
+                const days = Math.ceil((new Date(end) - new Date(start)) / 86400000) + 1;
+                info.innerHTML = `${formatDate(start)} – ${formatDate(end)} (${days} дн.)`;
+            } else if (info) {
+                info.innerHTML = 'Выберите период';
+            }
+        }
+        
+        function setDefaultDates() {
+            const today = new Date();
+            const monday = new Date(today);
+            monday.setDate(today.getDate() - (today.getDay() === 0 ? 6 : today.getDay() - 1));
+            const sunday = new Date(monday);
+            sunday.setDate(monday.getDate() + 6);
+            const start = document.getElementById('dateStart');
+            const end = document.getElementById('dateEnd');
+            if (start && end) {
+                start.value = monday.toISOString().split('T')[0];
+                end.value = sunday.toISOString().split('T')[0];
+                updatePeriodInfo();
+            }
+        }
+        
+        function createBonusHTML(b, idx) {
+            const bonusOptions = BONUS_TYPES.map(bt => `<option value="${bt.name}" data-points="${bt.points}" ${b.bonusType === bt.name ? 'selected' : ''}>${bt.name} (${bt.points} баллов)</option>`).join('');
+            const rankOptions = RANKS.map(r => `<option value="${r}" ${b.rankRole === r ? 'selected' : ''}>${r}</option>`).join('');
+            return `
+                <div class="action-item" data-idx="${idx}">
+                    <div class="action-header">
+                        <div class="action-title"><i class="fas fa-user-check"></i> СОТРУДНИК #${idx+1}</div>
+                        <button class="remove-action" data-idx="${idx}"><i class="fas fa-trash"></i> Удалить</button>
+                    </div>
+                    <div class="action-fields">
+                        <div class="action-field">
+                            <label>ИМЯ ФАМИЛИЯ</label>
+                            <input type="text" class="bonus-name" data-idx="${idx}" value="${escapeHtml(b.name)}" placeholder="John Doe">
+                        </div>
+                        <div class="action-field">
+                            <label>ДОЛЖНОСТЬ | РАНГ</label>
+                            <select class="bonus-rank" data-idx="${idx}">
+                                <option value="">-- Выберите --</option>
+                                ${rankOptions}
+                            </select>
+                        </div>
+                        <div class="action-field">
+                            <label>ТИП ПРЕМИИ</label>
+                            <select class="bonus-type" data-idx="${idx}">
+                                <option value="">-- Выберите --</option>
+                                ${bonusOptions}
+                            </select>
+                        </div>
+                        <div class="action-field">
+                            <label>КОЛ-ВО БАЛЛОВ</label>
+                            <input type="number" class="bonus-points" data-idx="${idx}" value="${b.points || 0}" readonly style="background: rgba(0,0,0,0.3); cursor: default;">
+                        </div>
+                        <div class="bonus-link">
+                            <label><i class="fas fa-file-alt"></i> ССЫЛКА НА ОТЧЕТ</label>
+                            <input type="text" class="bonus-url" data-idx="${idx}" value="${escapeHtml(b.reportUrl)}" placeholder="https://docs.google.com/...">
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+        
+        function escapeHtml(s) { if (!s) return ''; return String(s).replace(/[&<>]/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
+        
+        function attachBonusEvents(element, idx) {
+            const nameInput = element.querySelector('.bonus-name');
+            const rankSelect = element.querySelector('.bonus-rank');
+            const typeSelect = element.querySelector('.bonus-type');
+            const pointsInput = element.querySelector('.bonus-points');
+            const urlInput = element.querySelector('.bonus-url');
+            
+            nameInput.oninput = () => { if (bonuses[idx]) bonuses[idx].name = nameInput.value; };
+            rankSelect.onchange = () => { if (bonuses[idx]) bonuses[idx].rankRole = rankSelect.value; };
+            urlInput.oninput = () => { if (bonuses[idx]) bonuses[idx].reportUrl = urlInput.value; };
+            
+            typeSelect.onchange = () => {
+                if (!bonuses[idx]) return;
+                const selectedType = typeSelect.value;
+                const bonusObj = BONUS_TYPES.find(bt => bt.name === selectedType);
+                const points = bonusObj ? bonusObj.points : 0;
+                bonuses[idx].bonusType = selectedType;
+                bonuses[idx].points = points;
+                pointsInput.value = points;
+            };
+            
+            // триггер для обновления очков при загрузке
+            if (typeSelect.value) {
+                const bonusObj = BONUS_TYPES.find(bt => bt.name === typeSelect.value);
+                if (bonusObj) {
+                    pointsInput.value = bonusObj.points;
+                    if (bonuses[idx]) bonuses[idx].points = bonusObj.points;
+                }
+            }
+        }
+        
+        function attachAllBonusEvents() {
+            const container = document.getElementById('bonusList');
+            container.querySelectorAll('.action-item').forEach((el, i) => {
+                attachBonusEvents(el, i);
+            });
+        }
+        
+        function renumberBonusRender() {
+            const container = document.getElementById('bonusList');
+            const emptyDiv = document.getElementById('emptyBonus');
+            if (bonuses.length === 0) {
+                emptyDiv.style.display = 'block';
+                container.innerHTML = '';
+                return;
+            }
+            emptyDiv.style.display = 'none';
+            container.innerHTML = bonuses.map((b, i) => createBonusHTML(b, i)).join('');
+            attachAllBonusEvents();
+        }
+        
+        function addBonus() {
+            bonuses.push({ name: '', rankRole: '', bonusType: '', points: 0, reportUrl: '' });
+            renumberBonusRender();
+        }
+        
+        function removeBonusAtIndex(idx) {
+            bonuses.splice(idx, 1);
+            renumberBonusRender();
+        }
+        
+        // Глобальное удаление через делегирование
+        document.getElementById('bonusList')?.addEventListener('click', (e) => {
+            const removeBtn = e.target.closest('.remove-action');
+            if (removeBtn) {
+                const idx = parseInt(removeBtn.dataset.idx);
+                if (!isNaN(idx)) {
+                    const item = removeBtn.closest('.action-item');
+                    if (item) {
+                        item.style.animation = 'actionRemove 0.3s ease forwards';
+                        setTimeout(() => removeBonusAtIndex(idx), 250);
+                    }
+                }
+            }
+        });
+        
+        // Делегирование для изменения полей в бонусах
+        document.getElementById('bonusList')?.addEventListener('change', (e) => {
+            const target = e.target;
+            const idxAttr = target.dataset.idx;
+            if (idxAttr === undefined) return;
+            const idx = parseInt(idxAttr);
+            if (isNaN(idx) || !bonuses[idx]) return;
+            
+            if (target.classList.contains('bonus-type')) {
+                const selectedType = target.value;
+                const bonusObj = BONUS_TYPES.find(bt => bt.name === selectedType);
+                const points = bonusObj ? bonusObj.points : 0;
+                bonuses[idx].bonusType = selectedType;
+                bonuses[idx].points = points;
+                const pointsField = target.closest('.action-item')?.querySelector('.bonus-points');
+                if (pointsField) pointsField.value = points;
+            } else if (target.classList.contains('bonus-rank')) {
+                bonuses[idx].rankRole = target.value;
+            }
+        });
+        
+        document.getElementById('bonusList')?.addEventListener('input', (e) => {
+            const target = e.target;
+            const idxAttr = target.dataset.idx;
+            if (idxAttr === undefined) return;
+            const idx = parseInt(idxAttr);
+            if (isNaN(idx) || !bonuses[idx]) return;
+            
+            if (target.classList.contains('bonus-name')) {
+                bonuses[idx].name = target.value;
+            } else if (target.classList.contains('bonus-url')) {
+                bonuses[idx].reportUrl = target.value;
+            }
+        });
+        
+        async function sendToDiscord() {
+            const alertId = 'formAlert';
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            const originalHTML = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> ОТПРАВКА...';
+            
+            try {
+                const author = document.getElementById('reportAuthor')?.value.trim();
+                const unit = document.getElementById('reportUnit')?.value;
+                const startDate = document.getElementById('dateStart')?.value;
+                const endDate = document.getElementById('dateEnd')?.value;
+                const reportLink = document.getElementById('reportLink')?.value.trim();
+                
+                if (!author) throw new Error('Введите имя и фамилию');
+                if (!unit) throw new Error('Выберите подразделение');
+                if (!startDate || !endDate) throw new Error('Укажите период отчета');
+                if (!reportLink) throw new Error('Укажите ссылку на отчет подразделения');
+                
+                const periodStr = `${formatDate(startDate)} – ${formatDate(endDate)}`;
+                const unitName = document.querySelector(`#reportUnit option[value="${unit}"]`)?.textContent || unit;
+                
+                // Формируем текстовое сообщение без embed
+                let messageText = `${ROLES_TAG}\n✈️ **ОТЧЕТ ПОДРАЗДЕЛЕНИЯ** ✈️\n\n`;
+                messageText += `**📋 Отчет подразделения ${unitName}**\n`;
+                messageText += `👤 **Автор:** ${author}\n`;
+                messageText += `📅 **Период:** ${periodStr}\n`;
+                messageText += `🔗 **Ссылка на отчет:** ${reportLink}\n\n`;
+                
+                if (bonuses.length > 0) {
+                    messageText += `🏆 **СПИСКИ НА ПРЕМИЮ:**\n`;
+                    for (let i = 0; i < bonuses.length; i++) {
+                        const b = bonuses[i];
+                        const nameVal = b.name || 'Не указано';
+                        const rankVal = b.rankRole || 'Не указано';
+                        const typeVal = b.bonusType || 'Не указан';
+                        const pointsVal = b.points || 0;
+                        const urlVal = b.reportUrl ? b.reportUrl : '—';
+                        messageText += `**${i+1}. ${nameVal}** | ${rankVal}\n`;
+                        messageText += `   🎖️ Тип премии: ${typeVal} | Баллы: ${pointsVal}\n`;
+                        messageText += `   📎 Отчет: ${urlVal}\n\n`;
+                    }
+                } else {
+                    messageText += `ℹ️ **Списки на премию:** отсутствуют\n`;
+                }
+                
+                if (messageText.length > 1900) messageText = messageText.substring(0, 1900) + "\n... (обрезано)";
+                
+                const response = await fetch(UNIT_WEBHOOK, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ content: messageText })
+                });
+                
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                showAlert(alertId, '✅ Отчет подразделения отправлен!', 'success');
+                resetForm();
+            } catch (err) {
+                showAlert(alertId, `❌ Ошибка: ${err.message}`, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = originalHTML;
+            }
+        }
+        
+        function resetForm() {
+            document.getElementById('reportAuthor').value = '';
+            document.getElementById('reportUnit').value = '';
+            document.getElementById('reportLink').value = '';
+            setDefaultDates();
+            bonuses = [];
+            renumberBonusRender();
+            const alertDiv = document.getElementById('formAlert');
+            if (alertDiv) alertDiv.innerHTML = '';
+        }
+        
+        // Инициализация и слушатели
+        document.getElementById('addBonusBtn').onclick = addBonus;
+        document.getElementById('submitBtn').onclick = sendToDiscord;
+        document.getElementById('dateStart')?.addEventListener('change', updatePeriodInfo);
+        document.getElementById('dateEnd')?.addEventListener('change', updatePeriodInfo);
+        
+        // Тема (светлая/темная)
+        const themeSwitch = document.getElementById('themeSwitch');
+        themeSwitch.onclick = () => {
+            document.body.classList.toggle('light');
+            const isLight = document.body.classList.contains('light');
+            localStorage.setItem('usafTheme', isLight ? 'light' : 'dark');
+            const icon = themeSwitch.querySelector('i');
+            const span = themeSwitch.querySelector('span');
+            if (isLight) { icon.className = 'fas fa-moon'; span.innerText = 'Тёмная тема'; }
+            else { icon.className = 'fas fa-sun'; span.innerText = 'Светлая тема'; }
+        };
+        
+        if (localStorage.getItem('usafTheme') === 'light') {
+            document.body.classList.add('light');
+            themeSwitch.querySelector('i').className = 'fas fa-moon';
+            themeSwitch.querySelector('span').innerText = 'Тёмная тема';
+        }
+        
+        setDefaultDates();
+        renumberBonusRender();
+    </script>
+</body>
+</html>
