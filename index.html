@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>USAF | Отчеты подразделений</title>
+    <title>ARMY | Отчеты подразделений</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -15,44 +15,44 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: repeating-linear-gradient(45deg, #2a2418 0px, #2a2418 40px, #3e3524 40px, #3e3524 80px, #1f1a10 80px, #1f1a10 120px);
+            background: repeating-linear-gradient(45deg, #1e2a1e 0px, #1e2a1e 40px, #2d3a2a 40px, #2d3a2a 80px, #162012 80px, #162012 120px);
             min-height: 100vh;
         }
 
         body.light {
-            background: #e6dcc5;
+            background: #d9e0cb;
         }
 
         :root {
-            --glass-bg: rgba(30, 25, 18, 0.96);
-            --glass-border: rgba(180, 150, 80, 0.45);
-            --text-primary: #F5EED9;
-            --text-secondary: #DDD2B6;
-            --text-muted: #B8A97C;
-            --accent: #D4AF37;
-            --accent-glow: #E6C868;
-            --accent-dark: #B88F2A;
+            --glass-bg: rgba(28, 35, 22, 0.96);
+            --glass-border: rgba(120, 150, 80, 0.45);
+            --text-primary: #F0F2E9;
+            --text-secondary: #CFD6C2;
+            --text-muted: #A0AD8C;
+            --accent: #7CB342;
+            --accent-glow: #9CCC65;
+            --accent-dark: #558B2F;
             --success: #10b981;
             --danger: #ef4444;
-            --border-light: rgba(212, 175, 55, 0.25);
+            --border-light: rgba(124, 179, 66, 0.25);
             --shadow-sm: 0 8px 20px rgba(0, 0, 0, 0.5);
             --shadow-md: 0 20px 35px -10px rgba(0, 0, 0, 0.6);
-            --input-bg: rgba(20, 16, 12, 0.9);
-            --card-hover: rgba(212, 175, 55, 0.12);
+            --input-bg: rgba(20, 26, 16, 0.9);
+            --card-hover: rgba(124, 179, 66, 0.12);
         }
 
         body.light {
-            --glass-bg: rgba(250, 245, 235, 0.95);
-            --glass-border: rgba(180, 150, 80, 0.4);
-            --text-primary: #2c2418;
-            --text-secondary: #5c4e32;
-            --text-muted: #8a7a58;
-            --accent: #b8860b;
-            --accent-glow: #d4a017;
-            --accent-dark: #9a6d0a;
+            --glass-bg: rgba(245, 250, 235, 0.95);
+            --glass-border: rgba(100, 130, 70, 0.4);
+            --text-primary: #2c3024;
+            --text-secondary: #5a5f4c;
+            --text-muted: #8a9078;
+            --accent: #6a9c3e;
+            --accent-glow: #7cb342;
+            --accent-dark: #4c7a2a;
             --border-light: rgba(0, 0, 0, 0.1);
             --input-bg: rgba(255, 255, 245, 0.98);
-            --card-hover: rgba(184, 134, 11, 0.08);
+            --card-hover: rgba(108, 156, 62, 0.08);
         }
 
         .container {
@@ -103,7 +103,7 @@
         .logo h1 {
             font-size: 2.5rem;
             font-weight: 800;
-            background: linear-gradient(135deg, #F5EED9, var(--accent-glow));
+            background: linear-gradient(135deg, #F0F2E9, var(--accent-glow));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -139,17 +139,7 @@
         .theme-toggle:hover {
             border-color: var(--accent);
             transform: scale(1.05) translateY(-2px);
-            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
-        }
-
-        .page {
-            display: block;
-            animation: fadeInUp 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-        }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(40px); }
-            to { opacity: 1; transform: translateY(0); }
+            box-shadow: 0 0 20px rgba(124, 179, 66, 0.3);
         }
 
         .glass-card {
@@ -167,7 +157,7 @@
         }
 
         .card-header {
-            background: linear-gradient(135deg, rgba(212, 175, 55, 0.2), rgba(128, 98, 30, 0.08));
+            background: linear-gradient(135deg, rgba(124, 179, 66, 0.2), rgba(85, 139, 47, 0.08));
             padding: 20px 28px;
             border-bottom: 1px solid var(--border-light);
         }
@@ -221,7 +211,7 @@
         .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
             outline: none;
             border-color: var(--accent);
-            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 0 0 3px rgba(124, 179, 66, 0.2);
             transform: scale(1.01);
         }
 
@@ -232,7 +222,7 @@
         }
 
         .period-info {
-            background: rgba(212, 175, 55, 0.1);
+            background: rgba(124, 179, 66, 0.1);
             border-radius: 14px;
             padding: 12px 16px;
             text-align: center;
@@ -360,7 +350,7 @@
 
         .add-btn {
             width: 100%;
-            background: rgba(212, 175, 55, 0.12);
+            background: rgba(124, 179, 66, 0.12);
             border: 2px dashed var(--accent);
             border-radius: 18px;
             padding: 14px;
@@ -376,7 +366,7 @@
         }
 
         .add-btn:hover {
-            background: rgba(212, 175, 55, 0.25);
+            background: rgba(124, 179, 66, 0.25);
             transform: scale(1.02);
         }
 
@@ -384,7 +374,7 @@
             text-align: center;
             padding: 40px;
             color: var(--text-muted);
-            background: rgba(30, 25, 18, 0.6);
+            background: rgba(30, 35, 25, 0.6);
             border-radius: 20px;
         }
 
@@ -430,7 +420,7 @@
         .submit-btn:hover {
             transform: translateY(-3px);
             filter: brightness(1.05);
-            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.5);
+            box-shadow: 0 10px 30px rgba(124, 179, 66, 0.5);
         }
 
         .footer-signature {
@@ -504,10 +494,10 @@
     <div class="container">
         <div class="header">
             <div class="logo">
-                <div class="logo-icon"><i class="fas fa-fighter-jet"></i></div>
-                <h1>USAF</h1>
+                <div class="logo-icon"><i class="fas fa-shield-haltered"></i></div>
+                <h1>ARMY</h1>
             </div>
-            <p class="subtitle">United States Air Force | Отчеты подразделений</p>
+            <p class="subtitle">United States Army | Отчеты подразделений</p>
         </div>
 
         <div id="formPage" class="page">
@@ -531,7 +521,7 @@
                             <option value="MA">MA (Military Authority)</option>
                             <option value="DIV">DIV (Division)</option>
                             <option value="Tactical Medic">Tactical Medic</option>
-                            <option value="USAF">USAF (Air Force)</option>
+                            <option value="ARMY">ARMY (Army Forces)</option>
                             <option value="MPB">MPB (Military Police Battalion)</option>
                             <option value="DELTA">DELTA</option>
                         </select>
@@ -582,9 +572,7 @@
             { name: "Супер повышенная", points: 50 }
         ];
         
-        const RANKS = ["Специалист (3)", "Капрал (4)", "Сержант (5)", "Штаб-сержант (6)", "Уорент-офицер (7)", "Старший Уорент-офицер (8)", "Лейтенант (9)", "Капитан (10)", "Майор (11)", "Подполковник (12)"];
-
-        // ВЕБХУК ДЛЯ ОТЧЕТОВ ПОДРАЗДЕЛЕНИЙ (ЗАМЕНИТЕ НА ВАШ)
+        // НОВЫЙ ВЕБХУК ДЛЯ ОТЧЕТОВ ПОДРАЗДЕЛЕНИЙ ARMY
         const UNIT_WEBHOOK = 'https://discord.com/api/webhooks/1506606638101037056/7DlIrh8eInMeegGD4U_FcGJRE9Qwt9pcfWRPVbxad3f0fPjHwJpeCM6cYYZGMYG_-tU8';
         const ROLES_TAG = '<@&795409425434935306> <@&792081780588937227>';
         
@@ -631,7 +619,6 @@
         
         function createBonusHTML(b, idx) {
             const bonusOptions = BONUS_TYPES.map(bt => `<option value="${bt.name}" data-points="${bt.points}" ${b.bonusType === bt.name ? 'selected' : ''}>${bt.name} (${bt.points} баллов)</option>`).join('');
-            const rankOptions = RANKS.map(r => `<option value="${r}" ${b.rankRole === r ? 'selected' : ''}>${r}</option>`).join('');
             return `
                 <div class="action-item" data-idx="${idx}">
                     <div class="action-header">
@@ -645,10 +632,7 @@
                         </div>
                         <div class="action-field">
                             <label>ДОЛЖНОСТЬ | РАНГ</label>
-                            <select class="bonus-rank" data-idx="${idx}">
-                                <option value="">-- Выберите --</option>
-                                ${rankOptions}
-                            </select>
+                            <input type="text" class="bonus-rank" data-idx="${idx}" value="${escapeHtml(b.rankRole)}" placeholder="Сержант / Штаб-сержант">
                         </div>
                         <div class="action-field">
                             <label>ТИП ПРЕМИИ</label>
@@ -674,13 +658,13 @@
         
         function attachBonusEvents(element, idx) {
             const nameInput = element.querySelector('.bonus-name');
-            const rankSelect = element.querySelector('.bonus-rank');
+            const rankInput = element.querySelector('.bonus-rank');
             const typeSelect = element.querySelector('.bonus-type');
             const pointsInput = element.querySelector('.bonus-points');
             const urlInput = element.querySelector('.bonus-url');
             
             nameInput.oninput = () => { if (bonuses[idx]) bonuses[idx].name = nameInput.value; };
-            rankSelect.onchange = () => { if (bonuses[idx]) bonuses[idx].rankRole = rankSelect.value; };
+            rankInput.oninput = () => { if (bonuses[idx]) bonuses[idx].rankRole = rankInput.value; };
             urlInput.oninput = () => { if (bonuses[idx]) bonuses[idx].reportUrl = urlInput.value; };
             
             typeSelect.onchange = () => {
@@ -693,12 +677,11 @@
                 pointsInput.value = points;
             };
             
-            // триггер для обновления очков при загрузке
             if (typeSelect.value) {
                 const bonusObj = BONUS_TYPES.find(bt => bt.name === typeSelect.value);
-                if (bonusObj) {
+                if (bonusObj && bonuses[idx]) {
                     pointsInput.value = bonusObj.points;
-                    if (bonuses[idx]) bonuses[idx].points = bonusObj.points;
+                    bonuses[idx].points = bonusObj.points;
                 }
             }
         }
@@ -733,7 +716,6 @@
             renumberBonusRender();
         }
         
-        // Глобальное удаление через делегирование
         document.getElementById('bonusList')?.addEventListener('click', (e) => {
             const removeBtn = e.target.closest('.remove-action');
             if (removeBtn) {
@@ -748,7 +730,6 @@
             }
         });
         
-        // Делегирование для изменения полей в бонусах
         document.getElementById('bonusList')?.addEventListener('change', (e) => {
             const target = e.target;
             const idxAttr = target.dataset.idx;
@@ -764,8 +745,6 @@
                 bonuses[idx].points = points;
                 const pointsField = target.closest('.action-item')?.querySelector('.bonus-points');
                 if (pointsField) pointsField.value = points;
-            } else if (target.classList.contains('bonus-rank')) {
-                bonuses[idx].rankRole = target.value;
             }
         });
         
@@ -778,6 +757,8 @@
             
             if (target.classList.contains('bonus-name')) {
                 bonuses[idx].name = target.value;
+            } else if (target.classList.contains('bonus-rank')) {
+                bonuses[idx].rankRole = target.value;
             } else if (target.classList.contains('bonus-url')) {
                 bonuses[idx].reportUrl = target.value;
             }
@@ -805,8 +786,8 @@
                 const periodStr = `${formatDate(startDate)} – ${formatDate(endDate)}`;
                 const unitName = document.querySelector(`#reportUnit option[value="${unit}"]`)?.textContent || unit;
                 
-                // Формируем текстовое сообщение без embed
-                let messageText = `${ROLES_TAG}\n✈️ **ОТЧЕТ ПОДРАЗДЕЛЕНИЯ** ✈️\n\n`;
+                // Формируем текстовое сообщение, где ссылка вставляется как текст и кликабельна (Discord автоматически делает ссылки кликабельными)
+                let messageText = `${ROLES_TAG}\n🪖 **ОТЧЕТ ПОДРАЗДЕЛЕНИЯ ARMY** 🪖\n\n`;
                 messageText += `**📋 Отчет подразделения ${unitName}**\n`;
                 messageText += `👤 **Автор:** ${author}\n`;
                 messageText += `📅 **Период:** ${periodStr}\n`;
@@ -859,13 +840,11 @@
             if (alertDiv) alertDiv.innerHTML = '';
         }
         
-        // Инициализация и слушатели
         document.getElementById('addBonusBtn').onclick = addBonus;
         document.getElementById('submitBtn').onclick = sendToDiscord;
         document.getElementById('dateStart')?.addEventListener('change', updatePeriodInfo);
         document.getElementById('dateEnd')?.addEventListener('change', updatePeriodInfo);
         
-        // Тема (светлая/темная)
         const themeSwitch = document.getElementById('themeSwitch');
         themeSwitch.onclick = () => {
             document.body.classList.toggle('light');
