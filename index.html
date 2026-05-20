@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>USAF | Отчеты подразделений</title>
+    <title>ARMY | Отчеты подразделений</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
@@ -496,9 +496,9 @@
         <div class="header">
             <div class="logo">
                 <div class="logo-icon">⭐</div>
-                <h1>USAF</h1>
+                <h1>ARMY</h1>
             </div>
-            <p class="subtitle">United States Air Force | Отчеты подразделений</p>
+            <p class="subtitle">ARMY | Отчеты подразделений</p>
         </div>
 
         <div id="formPage" class="page">
@@ -541,12 +541,12 @@
                     
                     <div class="input-group">
                         <label><i class="fas fa-link"></i> ССЫЛКА НА ОТЧЕТ ПОДРАЗДЕЛЕНИЯ</label>
-                        <input type="text" id="reportLink" placeholder="https://docs.google.com/...">
+                        <input type="text" id="reportLink" placeholder="https://disk.yandex.ru/...">
                     </div>
                     
                     <div class="actions-section">
                         <label style="font-size: 0.7rem; font-weight: 600; color: var(--accent-glow);">
-                            <i class="fas fa-trophy"></i> СПИСКИ НА ПРЕМИЮ (БОНУСЫ)
+                            <i class="fas fa-trophy"></i> СПИСКИ НА ПРЕМИЮ
                         </label>
                         <div id="bonusList"></div>
                         <div id="emptyBonus" class="empty-state">Нет добавленных сотрудников на премию</div>
@@ -563,7 +563,7 @@
     <script>
         const BONUS_TYPES = ["Пониженная", "Стандартная", "Средняя", "Высокая", "Повышенная", "Супер повышенная"];
         
-        const UNIT_WEBHOOK = 'https://discord.com/api/webhooks/1506606638101037056/7DlIrh8eInMeegGD4U_FcGJRE9Qwt9pcfWRPVbxad3f0fPjHwJpeCM6cYYZGMYG_-tU8';
+        const UNIT_WEBHOOK = 'https://discord.com/api/webhooks/1506660963560984688/zC1js4sQMUazcpNIBy6rednNle8vCD1582B9HtsXcFNTiuVLoC2riLO6c_A3DiQ9UMb1';
         
         let bonuses = [];
         
@@ -621,7 +621,7 @@
                     <div class="action-fields">
                         <div class="action-field">
                             <label>ИМЯ ФАМИЛИЯ</label>
-                            <input type="text" class="bonus-name" data-idx="${idx}" value="${escapeHtml(b.name)}" placeholder="John Doe">
+                            <input type="text" class="bonus-name" data-idx="${idx}" value="${escapeHtml(b.name)}" placeholder="Alexandr DeHaus">
                         </div>
                         <div class="action-field">
                             <label>ДОЛЖНОСТЬ | РАНГ</label>
@@ -640,7 +640,7 @@
                         </div>
                         <div class="bonus-link">
                             <label><i class="fas fa-file-alt"></i> ССЫЛКА НА ОТЧЕТ</label>
-                            <input type="text" class="bonus-url" data-idx="${idx}" value="${escapeHtml(b.reportUrl)}" placeholder="https://docs.google.com/...">
+                            <input type="text" class="bonus-url" data-idx="${idx}" value="${escapeHtml(b.reportUrl)}" placeholder="https://disk.yandex.ru/...">
                         </div>
                     </div>
                 </div>
